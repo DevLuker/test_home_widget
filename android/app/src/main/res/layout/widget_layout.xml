@@ -1,0 +1,79 @@
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/widget_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    android:layout_height="wrap_content"
+    android:background="#0920E8">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+            <GridLayout
+                android:paddingTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2">
+                <ImageView
+                    android:paddingLeft="10dp"
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/txt_compra"
+                    android:layout_width="123dp"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:text="Rextie"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+            </GridLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#0920E8"
+                android:padding="6dp"
+                android:orientation="vertical">
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#3F50E6"
+                    android:columnCount="2" >
+
+                <TextView
+                    android:id="@+id/txt_compra"
+                    android:layout_width="94dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Compra: "
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/txt_compra_value"
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="--"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/txt_venta"
+                    android:layout_width="94dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Venta: "
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/txt_venta_value"
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="--"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp" />
+                </GridLayout>
+            </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
