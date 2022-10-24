@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
+import 'dart:io' show Platform;
 
 class CronometerScreen extends StatefulWidget {
   const CronometerScreen({Key? key}) : super(key: key);
@@ -19,7 +20,6 @@ class ConometerScreenState extends State<CronometerScreen> {
   }
 
   Future<void> loadData() async {
-    // DATA INICIAL
     const String _compra = '3.9580';
     const String _venta = '3.9980';
     /////
@@ -27,6 +27,9 @@ class ConometerScreenState extends State<CronometerScreen> {
       compra = _compra;
       venta = _venta;
     });
+    if (Platform.isIOS) {
+      HomeWidget.setAppGroupId('group.home.widget.demo');
+    }
     await HomeWidget.saveWidgetData<String>('compra', _compra);
     await HomeWidget.saveWidgetData<String>('venta', _venta);
     await HomeWidget.updateWidget(
