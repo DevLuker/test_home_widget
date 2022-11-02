@@ -5,22 +5,22 @@ import android.content.Context
 import android.content.SharedPreferences
 
 import android.widget.RemoteViews
-import com.example.flutter_home_widget.R.layout.widget_layout
+import com.example.flutter_home_widget.R.layout.widget_layout2
+
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 
 
 
-
-class AppWidgetProvider : HomeWidgetProvider() {
+class AppWidgetProviderX2 : HomeWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray, widgetData: SharedPreferences) {
         appWidgetIds.forEach { widgetId ->
-            val views = RemoteViews(context.packageName, widget_layout).apply {
+            val views = RemoteViews(context.packageName, widget_layout2).apply {
 
                 // Open App on Widget Click
                 val pendingIntent = HomeWidgetLaunchIntent.getActivity(context,
                     MainActivity::class.java)
-                setOnClickPendingIntent(R.id.widget_root, pendingIntent)
+                setOnClickPendingIntent(R.id.widget_root2, pendingIntent)
 
                 val compra = widgetData.getString("compra", "proceso")
                 val venta = widgetData.getString("venta", "proceso")
