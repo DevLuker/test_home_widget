@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 
-class CronometerScreen extends StatefulWidget {
-  const CronometerScreen({Key? key}) : super(key: key);
+class WidgetScreen extends StatefulWidget {
+  const WidgetScreen({Key? key}) : super(key: key);
 
   @override
-  State<CronometerScreen> createState() => ConometerScreenState();
+  State<WidgetScreen> createState() => WidgetScreenState();
 }
 
-class ConometerScreenState extends State<CronometerScreen> {
+class WidgetScreenState extends State<WidgetScreen> {
   late String compra;
   late String venta;
 

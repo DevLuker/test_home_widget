@@ -1,2 +1,2 @@
-export 'cronometer_screen.dart';
+export 'widget_screen.dart';
 export 'home_screen.dart';

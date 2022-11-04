@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_home_widget/firebase_options.dart';
 
 class PushNotifications {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -12,34 +14,31 @@ class PushNotifications {
   static Stream<String> get messagesStream => _messageStream.stream;
 
   static Future _backgroundHandler(RemoteMessage message) async {
-    print('onBackgroundMessage: ${message.messageId}');
-
+    log('onBackgroundMessage: ${message.messageId}');
     _messageStream.add(message.data['product'] ?? 'No data');
   }
 
   static Future _messageHandler(RemoteMessage message) async {
-    print('onMessageHandler: ${message.messageId}');
+    log('onMessageHandler: ${message.messageId}');
     _messageStream.add(message.data['product'] ?? 'No data');
-    //_messageStream.add(message.notification?.title ?? 'No data 2');
   }
 
   static Future _messageOpenedAppHandler(RemoteMessage message) async {
-    print('onOpenAppHandler: ${message.messageId}');
+    log('onOpenAppHandler: ${message.messageId}');
     _messageStream.add(message.data['product'] ?? 'No data');
-    //_messageStream.add(message.notification?.title ?? 'No data 3');
   }
 
   static Future initializeApp() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
     token = await FirebaseMessaging.instance.getToken();
-    print('TOKEN DEL USUARIO: $token');
+    log('TOKEN DEL USUARIO: $token');
 
     // Handlers
     FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
     FirebaseMessaging.onMessage.listen(_messageHandler);
     FirebaseMessaging.onMessageOpenedApp.listen(_messageOpenedAppHandler);
-
-    // Local Notifications
   }
 
   static closeStreams() {

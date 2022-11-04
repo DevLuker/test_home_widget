@@ -19,19 +19,6 @@ class LocalNotificationService {
     );
 
     await _localNotification.initialize(initializationSettings);
-
-    /*  const  initializationSettingsIOS = IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-    ); */
-
-    /* final initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-    await _localNotification.initialize(initializationSettings,
-        onSelectNotification: selectNotification); */
   }
 
   void onDidReceiveLocalNotification(

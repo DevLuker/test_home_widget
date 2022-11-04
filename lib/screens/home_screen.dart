@@ -41,6 +41,8 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments ?? 'No data';
+
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -50,6 +52,9 @@ class MyHomePageState extends State<MyHomePage> {
             const Text(
               'Pulsa el botón',
             ),
+            const SizedBox(height: 20),
+            Text(args.toString()),
+            const SizedBox(height: 20),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
