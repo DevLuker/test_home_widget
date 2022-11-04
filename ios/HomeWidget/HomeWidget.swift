@@ -11,58 +11,48 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+        SimpleEntry(date: Date(), compra: "place", venta: "place2", configuration: ConfigurationIntent())
     }
     
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+        let entry = SimpleEntry(date: Date(), compra: "aea", venta: "aex",configuration: configuration)
         completion(entry)
     }
     
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
-        
         let data = UserDefaults.init(suiteName:"group.home.widget.demo")
         
-        if(data != nil) {
-            do {
-                let shared = data?.string(forKey: "widgetData")
-                if(shared != nil){
-                    print(shared!)
-                    //                let decoder = JSONDecoder()
-                    //                let flutterData = try decoder.decode(FlutterData.self, from: shared!.data(using: .utf8)!)
-                }else{
-                    print("SIN DATA")
-                }
-            } catch {
-                print(error)
+        let compra = data?.string(forKey: "compra")
+        let venta = data?.string(forKey: "venta")
+        if(compra != nil && venta != nil){
+            let currentDate = Date()
+            for hourOffset in 0 ..< 5 {
+                let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+                let entry = SimpleEntry(date: entryDate, compra: compra!, venta:venta!, configuration: configuration)
+                entries.append(entry)
             }
-        }
-        
-        
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
+            
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
+        }else{
+            let entry = SimpleEntry(date: Date(), compra: "uwu", venta: "owo",configuration: configuration)
             entries.append(entry)
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
         }
-        
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
+    let compra: String
+    let venta: String
     let configuration: ConfigurationIntent
 }
 
 struct HomeWidgetEntryView : View {
     var entry: Provider.Entry
-    //    var gradient : Color = Color(
-    //        red: 32.0/255, green: 33.0/255, blue: 37.0/255
-    //    )
     
     var gradient: LinearGradient {
         LinearGradient(
@@ -90,46 +80,7 @@ struct HomeWidgetEntryView : View {
     
     var logo: Image = Image("LogoRextie")
     
-    var exchange: some View =  VStack(alignment: .leading) {
-        HStack {
-            Spacer()
-            Text("Compra")
-                .font(.system(size: 12).weight(.light))
-                .foregroundColor(.white)
-                .frame(width: 50, alignment: .leading)
-            Spacer()
-            Text("3.89")
-                .font(.system(size: 12).weight(.bold))
-                .foregroundColor(.white).frame(width: 30)
-            Spacer()
-        }
-        .padding([.top], 10)
-        
-//        Spacer()
-//            .frame(maxHeight: 5)
-        HStack {
-            Spacer()
-            Text("Venta")
-                .font(.system(size: 12).weight(.light))
-                .foregroundColor(.white)
-                .frame(width: 50, alignment: .leading)
-            Spacer()
-            Text("3.99")
-                .font(.system(size: 12).weight(.bold))
-                .foregroundColor(.white).frame(width: 30)
-            Spacer()
-        }
-        .padding([.bottom], 10)
-    }
-        .background(
-            Color(
-                red: 255.0/255.0,
-                green: 255.0/255.0,
-                blue:  255.0/255.0,
-                opacity: 0.2
-            )
-        )
-        .cornerRadius(10)
+    //    var exchange: some View =
     
     var body: some View {
         GeometryReader() { geo in
@@ -145,8 +96,47 @@ struct HomeWidgetEntryView : View {
                     )
                     .padding(.horizontal, 12)
                 Spacer()
-                exchange
-                    .padding(.horizontal, 12)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Spacer()
+                        Text("Compra")
+                            .font(.system(size: 12).weight(.light))
+                            .foregroundColor(.white)
+                            .frame(width: 50, alignment: .leading)
+                        Spacer()
+                        Text(entry.compra)
+                            .font(.system(size: 12).weight(.bold))
+                            .foregroundColor(.white).frame(width: 30)
+                        Spacer()
+                    }
+                    .padding([.top], 10)
+                    
+                    //        Spacer()
+                    //            .frame(maxHeight: 5)
+                    HStack {
+                        Spacer()
+                        Text("Venta")
+                            .font(.system(size: 12).weight(.light))
+                            .foregroundColor(.white)
+                            .frame(width: 50, alignment: .leading)
+                        Spacer()
+                        Text(entry.venta)
+                            .font(.system(size: 12).weight(.bold))
+                            .foregroundColor(.white).frame(width: 30)
+                        Spacer()
+                    }
+                    .padding([.bottom], 10)
+                }
+                .background(
+                    Color(
+                        red: 255.0/255.0,
+                        green: 255.0/255.0,
+                        blue:  255.0/255.0,
+                        opacity: 0.2
+                    )
+                )
+                .cornerRadius(10)
+                .padding(.horizontal, 12)
                 Spacer()
                 HStack(alignment: .center) {
                     Spacer()
@@ -187,7 +177,7 @@ struct HomeWidget: Widget {
 
 struct HomeWidget_Previews: PreviewProvider {
     static var previews: some View {
-        HomeWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+        HomeWidgetEntryView(entry:SimpleEntry(date: Date(), compra: "aea", venta: "venta", configuration: ConfigurationIntent() ))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

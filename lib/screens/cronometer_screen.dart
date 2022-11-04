@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
-import 'dart:io' show Platform;
 
 class CronometerScreen extends StatefulWidget {
   const CronometerScreen({Key? key}) : super(key: key);
@@ -27,13 +26,15 @@ class ConometerScreenState extends State<CronometerScreen> {
       compra = _compra;
       venta = _venta;
     });
-    if (Platform.isIOS) {
-      HomeWidget.setAppGroupId('group.home.widget.demo');
-    }
+
     await HomeWidget.saveWidgetData<String>('compra', _compra);
     await HomeWidget.saveWidgetData<String>('venta', _venta);
     await HomeWidget.updateWidget(
-        name: 'AppWidgetProvider', iOSName: 'AppWidgetProvider');
+      name: 'AppWidgetProvider',
+      iOSName: 'HomeWidget',
+    );
+    final dataGuardada = await HomeWidget.getWidgetData<String>('venta');
+    print('DATA GUARDADA $dataGuardada');
   }
 
   Future<void> updateAppWidgetV1() async {
@@ -48,7 +49,9 @@ class ConometerScreenState extends State<CronometerScreen> {
     await HomeWidget.saveWidgetData<String>('compra', _compra);
     await HomeWidget.saveWidgetData<String>('venta', _venta);
     await HomeWidget.updateWidget(
-        name: 'AppWidgetProvider', iOSName: 'AppWidgetProvider');
+      name: 'AppWidgetProvider',
+      iOSName: 'HomeWidget',
+    );
   }
 
   @override
