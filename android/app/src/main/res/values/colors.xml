@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorCero">#33FFFFFF</color>
+    <color name="colorCeroDark">#20FFFFFF</color>
+    <color name="colorUno">#0032FF</color>
+    <color name="colorDos">#00008A</color>
+    <color name="colorTres">#202125</color>
+</resources>
