@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_widget/firebase_options.dart';
@@ -16,6 +18,9 @@ void main() async {
   await PushNotifications.initializeApp();
 
   HomeWidget.registerBackgroundCallback(backgroundCallback);
+  if (Platform.isIOS) {
+    HomeWidget.setAppGroupId('group.home.widget.demo');
+  }
   runApp(const MyApp());
 }
 
