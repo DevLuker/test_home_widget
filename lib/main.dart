@@ -23,18 +23,25 @@ void main() async {
   // Init Firebase
   await PushNotifications.initializeApp();
 
-  // Init Home Widget IOS
-  if (Platform.isIOS) {
-    HomeWidget.setAppGroupId('group.home.widget.demo');
-  }
-
   // Init WorkManager
   await Workmanager().initialize(callbackDispatcher);
-  await Workmanager().registerPeriodicTask(
-    'getWidgetData',
-    'callUpdateWidget',
-    frequency: const Duration(minutes: 15),
-  );
+
+  // Init Home Widget IOS
+  if (Platform.isIOS) {
+    await HomeWidget.setAppGroupId('group.home.widget.demo');
+    await Workmanager().registerOneOffTask(
+      'simpleTask',
+      'simpleTask',
+    );
+  }
+
+  if (Platform.isAndroid) {
+    await Workmanager().registerPeriodicTask(
+      'getWidgetData',
+      'callUpdateWidget',
+      frequency: const Duration(minutes: 15),
+    );
+  }
   await initHomeWidgetData();
 
   // Init App
