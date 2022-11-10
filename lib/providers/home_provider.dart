@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:home_widget/home_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -32,4 +34,16 @@ Future<void> initHomeWidgetData() async {
     name: 'AppWidgetProvider',
     iOSName: 'HomeWidget',
   );
+
+  final dataGuardada = await HomeWidget.getWidgetData<String>('hour');
+  final contador = await HomeWidget.getWidgetData<int>('contador');
+  print('contador $contador');
+  log('contador $contador');
+  await HomeWidget.saveWidgetData<int>('contador', (contador ?? 0) + 1);
+  final contador2 = await HomeWidget.getWidgetData<int>('contador');
+  print('contador $contador2');
+  log('contador $contador2');
+
+  print('DATA GUARDADA $dataGuardada');
+  log('DATA GUARDADA $dataGuardada');
 }

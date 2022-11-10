@@ -9,10 +9,10 @@ import 'package:workmanager/workmanager.dart';
 
 void callbackDispatcher() async {
   Workmanager().executeTask((taskName, inputData) async {
-    if (taskName == 'callUpdateWidget') {
-      // Llamar a la función que actualiza el widget
-      await initHomeWidgetData();
-    }
+    // if (taskName == 'simpleTask') {
+    // Llamar a la función que actualiza el widget
+    // }
+    await initHomeWidgetData();
     return Future.value(true);
   });
 }
@@ -24,11 +24,14 @@ void main() async {
   await PushNotifications.initializeApp();
 
   // Init WorkManager
-  await Workmanager().initialize(callbackDispatcher);
+  await Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: true,
+  );
 
   // Init Home Widget IOS
   if (Platform.isIOS) {
-    await HomeWidget.setAppGroupId('group.home.widget.demo');
+    await HomeWidget.setAppGroupId('group.home.widget.devpianist');
     await Workmanager().registerOneOffTask(
       'simpleTask',
       'simpleTask',
@@ -37,8 +40,8 @@ void main() async {
 
   if (Platform.isAndroid) {
     await Workmanager().registerPeriodicTask(
-      'getWidgetData',
-      'callUpdateWidget',
+      'simpleTask',
+      'simpleTask',
       frequency: const Duration(minutes: 15),
     );
   }
@@ -83,9 +86,6 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: const WidgetScreen(),
-      routes: {
-        'home': (context) => const MyHomePage(),
-      },
     );
   }
 }

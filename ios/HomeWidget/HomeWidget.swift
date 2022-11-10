@@ -11,32 +11,52 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), compra: "place", venta: "place2", configuration: ConfigurationIntent())
+        SimpleEntry(
+            hour: "",
+            buy: "",
+            sell: "",
+            date: Date(),
+            configuration: ConfigurationIntent()
+        )
     }
     
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), compra: "aea", venta: "aex",configuration: configuration)
+        let entry =  SimpleEntry(
+            hour: "",
+            buy: "",
+            sell: "",
+            date: Date(),
+            configuration: ConfigurationIntent()
+        )
         completion(entry)
     }
     
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
-        let data = UserDefaults.init(suiteName:"group.home.widget.demo")
+        let data = UserDefaults.init(suiteName:"group.home.widget.devpianist")
         
-        let compra = data?.string(forKey: "compra")
-        let venta = data?.string(forKey: "venta")
-        if(compra != nil && venta != nil){
-            let currentDate = Date()
-            for hourOffset in 0 ..< 5 {
-                let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-                let entry = SimpleEntry(date: entryDate, compra: compra!, venta:venta!, configuration: configuration)
-                entries.append(entry)
-            }
-            
+        let buy = data?.string(forKey: "buy")
+        let sell = data?.string(forKey: "sell")
+        let hour = data?.string(forKey: "hour")
+        if(buy != nil && sell != nil && hour != nil){
+            let entry = SimpleEntry(
+                hour: hour!,
+                buy: buy!,
+                sell: sell!,
+                date: Date(),
+                configuration: configuration
+            )
+            entries.append(entry)
             let timeline = Timeline(entries: entries, policy: .atEnd)
             completion(timeline)
         }else{
-            let entry = SimpleEntry(date: Date(), compra: "uwu", venta: "owo",configuration: configuration)
+            let entry = SimpleEntry(
+                hour: "",
+                buy: "",
+                sell: "",
+                date: Date(),
+                configuration: configuration
+            )
             entries.append(entry)
             let timeline = Timeline(entries: entries, policy: .atEnd)
             completion(timeline)
@@ -45,9 +65,10 @@ struct Provider: IntentTimelineProvider {
 }
 
 struct SimpleEntry: TimelineEntry {
+    let hour: String
+    let buy: String
+    let sell: String
     let date: Date
-    let compra: String
-    let venta: String
     let configuration: ConfigurationIntent
 }
 
@@ -104,7 +125,7 @@ struct HomeWidgetEntryView : View {
                             .foregroundColor(.white)
                             .frame(width: 50, alignment: .leading)
                         Spacer()
-                        Text(entry.compra)
+                        Text(entry.buy)
                             .font(.system(size: 12).weight(.bold))
                             .foregroundColor(.white).frame(width: 30)
                         Spacer()
@@ -120,7 +141,7 @@ struct HomeWidgetEntryView : View {
                             .foregroundColor(.white)
                             .frame(width: 50, alignment: .leading)
                         Spacer()
-                        Text(entry.venta)
+                        Text(entry.sell)
                             .font(.system(size: 12).weight(.bold))
                             .foregroundColor(.white).frame(width: 30)
                         Spacer()
@@ -148,7 +169,7 @@ struct HomeWidgetEntryView : View {
                             minHeight: 16,
                             maxHeight: 16
                         )
-                    Text("Hoy - 5:00 pm")
+                    Text(entry.hour)
                         .font(.system(size: 12))
                         .foregroundColor(.white)
                     Spacer()
@@ -177,7 +198,14 @@ struct HomeWidget: Widget {
 
 struct HomeWidget_Previews: PreviewProvider {
     static var previews: some View {
-        HomeWidgetEntryView(entry:SimpleEntry(date: Date(), compra: "aea", venta: "venta", configuration: ConfigurationIntent() ))
+        let entry = SimpleEntry(
+            hour: "",
+            buy: "",
+            sell: "",
+            date: Date(),
+            configuration: ConfigurationIntent()
+        )
+        HomeWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

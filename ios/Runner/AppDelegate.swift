@@ -12,21 +12,11 @@ import workmanager
         UNUserNotificationCenter.current().delegate = self
         
         WorkmanagerPlugin.setPluginRegistrantCallback { registry in
-            // Registry in this case is the FlutterEngine that is created in Workmanager's
-            // performFetchWithCompletionHandler or BGAppRefreshTask.
-            // This will make other plugins available during a background operation.
             GeneratedPluginRegistrant.register(with: registry)
         }
         
-//        WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.taskId")
-          WorkmanagerPlugin.registerTask(withIdentifier: "simpleTask")
-//        WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.rescheduledTask")
-//        WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.failedTask")
-//        WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.simpleDelayedTask")
-//        WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.simplePeriodicTask")
-//        WorkmanagerPlugin.registerTask(withIdentifier: "be.tramckrijte.workmanagerExample.simplePeriodic1HourTask")
-//        
-        
+        WorkmanagerPlugin.registerTask(withIdentifier: "simpleTask")
+        UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(60*15))
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
@@ -34,6 +24,6 @@ import workmanager
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            completionHandler(.alert) // shows banner even if app is in foreground
+            completionHandler([.banner, .list, .sound]) // shows banner even if app is in foreground
         }
 }

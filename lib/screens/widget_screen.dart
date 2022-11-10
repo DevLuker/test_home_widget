@@ -33,8 +33,6 @@ class WidgetScreenState extends State<WidgetScreen> {
       name: 'AppWidgetProvider',
       iOSName: 'HomeWidget',
     );
-    final dataGuardada = await HomeWidget.getWidgetData<String>('venta');
-    print('DATA GUARDADA $dataGuardada');
   }
 
   Future<void> updateAppWidgetV1() async {
