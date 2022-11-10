@@ -121,13 +121,15 @@ struct HomeWidgetEntryView : View {
                     HStack {
                         Spacer()
                         Text("Compra")
-                            .font(.system(size: 12).weight(.light))
+                            .font(
+                                .system(size: 12)
+                                .weight(.light))
                             .foregroundColor(.white)
                             .frame(width: 50, alignment: .leading)
                         Spacer()
                         Text(entry.buy)
-                            .font(.system(size: 12).weight(.bold))
-                            .foregroundColor(.white).frame(width: 30)
+                            .font(.system(size: 11).weight(.bold))
+                            .foregroundColor(.white).frame(width: 40)
                         Spacer()
                     }
                     .padding([.top], 10)
@@ -142,8 +144,8 @@ struct HomeWidgetEntryView : View {
                             .frame(width: 50, alignment: .leading)
                         Spacer()
                         Text(entry.sell)
-                            .font(.system(size: 12).weight(.bold))
-                            .foregroundColor(.white).frame(width: 30)
+                            .font(.system(size: 11).weight(.bold))
+                            .foregroundColor(.white).frame(width: 40)
                         Spacer()
                     }
                     .padding([.bottom], 10)
@@ -170,7 +172,7 @@ struct HomeWidgetEntryView : View {
                             maxHeight: 16
                         )
                     Text(entry.hour)
-                        .font(.system(size: 12))
+                        .font(.system(size: 11))
                         .foregroundColor(.white)
                     Spacer()
                 }
@@ -199,9 +201,9 @@ struct HomeWidget: Widget {
 struct HomeWidget_Previews: PreviewProvider {
     static var previews: some View {
         let entry = SimpleEntry(
-            hour: "",
-            buy: "",
-            sell: "",
+            hour: "12:99 AM",
+            buy: "3.999",
+            sell: "3.999",
             date: Date(),
             configuration: ConfigurationIntent()
         )
